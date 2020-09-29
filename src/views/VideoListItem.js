@@ -1,21 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import parser from 'html-react-parser';
+
+import Thumbnail from '../components/Thumbnail';
+import Title from '../components/Title';
+import SubTitle from '../components/SubTitle';
+import Description from '../components/Description';
 
 class VideoListItem extends Component {
   render() {
     return (
       <Fragment>
         <Link to={`/${this.props.video.id}`}>
-          <img
-            width={256}
-            height={144}
-            alt=''
-            src={this.props.video.thumbnails.high.url}
-          />
-          <div>{this.props.video.title}</div>
-          <div>{this.props.video.channelTitle}</div>
-          <div>{this.props.video.publishedAt}</div>
-          <div>{this.props.video.description}</div>
+          <Thumbnail alt='' src={this.props.video.thumbnails.high.url} />
+          <Title>{this.props.video.title}</Title>
+          <SubTitle>{this.props.video.channelTitle}</SubTitle>
+          <SubTitle>{this.props.video.publishedAt}</SubTitle>
+          <Description>
+            {parser(this.props.video.description.replaceAll('\n', '<br />'))}
+          </Description>
         </Link>
       </Fragment>
     );
