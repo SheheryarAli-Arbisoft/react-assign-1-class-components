@@ -10,7 +10,7 @@ class VideoListItem extends Component {
             width={256}
             height={144}
             alt=''
-            src={this.props.video.thumbnails.maxres.url}
+            src={this.props.video.thumbnails.high.url}
           />
           <div>{this.props.video.title}</div>
           <div>{this.props.video.channelTitle}</div>

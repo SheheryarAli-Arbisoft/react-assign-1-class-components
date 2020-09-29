@@ -1,18 +1,16 @@
 import axios from 'axios';
-import { ALL_VIDEOS_LOADED, VIDEO_LOADED, VIDEO_ERROR } from './types';
+import {
+  ALL_VIDEOS_LOADED,
+  ALL_RELATED_VIDEOS_LOADED,
+  VIDEO_LOADED,
+  VIDEO_ERROR,
+} from './types';
 
 const API_KEY = 'AIzaSyA6vjCwXxs-wFd7_Hr0eFA6YuHYX7INahM';
 
 // Generate the search url
 const generateSearchUrl = (description) => {
-  return `https://www.googleapis.com/youtube/v3/search?maxResults=25&q=${description}&type=video&key=${API_KEY}`;
-};
-
-// Generete the videos url
-const generateVideosUrl = (videoIds) => {
-  return `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds.join(
-    '%2C'
-  )}&key=${API_KEY}`;
+  return `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${description}&type=video&key=${API_KEY}`;
 };
 
 // Get required data from response
@@ -21,8 +19,9 @@ const getRequiredVideosData = (response) => {
 
   response.items.forEach((item) => {
     // Destructuring the required fields
+    const { videoId: id } = item.id;
+
     const {
-      id,
       title,
       channelTitle,
       publishedAt,
@@ -53,17 +52,39 @@ export const getAllVideos = (description) => async (dispatch) => {
     // Getting all the video results related to the description
     let result = await axios.get(generateSearchUrl(description));
 
-    // Getting the video ids from the search result
-    const videoIds = result.data.items.map((item) => item.id.videoId);
-
-    // Getting the videos from the video ids
-    result = await axios.get(generateVideosUrl(videoIds));
-
     // Getting required data from response
     result = getRequiredVideosData(result.data);
 
     dispatch({
       type: ALL_VIDEOS_LOADED,
+      payload: result,
+    });
+  } catch (err) {
+    console.log(err.message);
+
+    dispatch({
+      type: VIDEO_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Generate realted videos url
+const generateRelatedVideosUrl = (id) => {
+  return `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=26&relatedToVideoId=${id}&type=video&key=${API_KEY}`;
+};
+
+// Get all videos related to a video
+export const getAllRelatedVideos = (id) => async (dispatch) => {
+  try {
+    // Getting all the videos related to the current video
+    let result = await axios.get(generateRelatedVideosUrl(id));
+
+    // Getting required data from response
+    result = getRequiredVideosData(result.data);
+
+    dispatch({
+      type: ALL_RELATED_VIDEOS_LOADED,
       payload: result,
     });
   } catch (err) {

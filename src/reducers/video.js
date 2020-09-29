@@ -1,7 +1,7 @@
 import {
   ALL_VIDEOS_LOADED,
   VIDEO_LOADED,
-  RELATED_VIDEOS_LOADED,
+  ALL_RELATED_VIDEOS_LOADED,
   VIDEO_ERROR,
 } from '../actions/types';
 
@@ -53,7 +53,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case ALL_VIDEOS_LOADED:
-    case RELATED_VIDEOS_LOADED:
+    case ALL_RELATED_VIDEOS_LOADED:
       return {
         ...state,
         loading: false,

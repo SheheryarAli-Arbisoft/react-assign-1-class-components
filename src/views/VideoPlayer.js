@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import parser from 'html-react-parser';
+import VideosList from './VideosList';
 
 import { connect } from 'react-redux';
-import { getVideo } from '../actions/video';
+import { getVideo, getAllRelatedVideos } from '../actions/video';
 
 const getVideoIFrame = (embedHtml) => {
   let videoUrl = embedHtml.split(' ')[3];
@@ -22,14 +23,25 @@ const getVideoIFrame = (embedHtml) => {
 
 class VideoPlayer extends Component {
   componentDidMount() {
-    const { match, getVideo } = this.props;
+    const { match, getVideo, getAllRelatedVideos } = this.props;
 
     getVideo(match.params.id);
+    getAllRelatedVideos(match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { match, getVideo, getAllRelatedVideos } = this.props;
+
+    if (match.params.id !== prevProps.match.params.id) {
+      getVideo(match.params.id);
+      getAllRelatedVideos(match.params.id);
+    }
   }
 
   render() {
     return (
       <Fragment>
+        {/* Displaying the current video along with details */}
         {!this.props.video.loading && this.props.video.video && (
           <Fragment>
             {getVideoIFrame(this.props.video.video.embedHtml)}
@@ -43,6 +55,7 @@ class VideoPlayer extends Component {
             </div>
           </Fragment>
         )}
+        <VideosList />
       </Fragment>
     );
   }
@@ -52,4 +65,6 @@ const mapStateToProps = (state) => ({
   video: state.video,
 });
 
-export default connect(mapStateToProps, { getVideo })(VideoPlayer);
+export default connect(mapStateToProps, { getVideo, getAllRelatedVideos })(
+  VideoPlayer
+);
