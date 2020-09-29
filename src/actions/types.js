@@ -1,0 +1,3 @@
+// VIDEO
+export const ALL_VIDEOS_LOADED = 'ALL_VIDEOS_LOADED';
+export const VIDEO_ERROR = 'VIDEO_ERROR';
