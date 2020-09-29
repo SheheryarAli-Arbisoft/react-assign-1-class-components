@@ -1,9 +1,15 @@
-import { ALL_VIDEOS_LOADED, VIDEO_ERROR } from '../actions/types';
+import {
+  ALL_VIDEOS_LOADED,
+  VIDEO_LOADED,
+  RELATED_VIDEOS_LOADED,
+  VIDEO_ERROR,
+} from '../actions/types';
 
 const initialState = {
   video: null,
   videos: [
     {
+      id: 'abc',
       title: 'Learn JavaScript - Full Course for Beginners',
       channelTitle: 'freeCodeCamp.org',
       publishedAt: '2018-12-10T14:13:40Z',
@@ -47,11 +53,19 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case ALL_VIDEOS_LOADED:
+    case RELATED_VIDEOS_LOADED:
       return {
         ...state,
         loading: false,
         errors: null,
         videos: payload,
+      };
+    case VIDEO_LOADED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        video: payload,
       };
     case VIDEO_ERROR:
       return {
