@@ -30,9 +30,19 @@ class VideoPlayer extends Component {
   render() {
     return (
       <Fragment>
-        {!this.props.video.loading &&
-          this.props.video.video &&
-          getVideoIFrame(this.props.video.video.embedHtml)}
+        {!this.props.video.loading && this.props.video.video && (
+          <Fragment>
+            {getVideoIFrame(this.props.video.video.embedHtml)}
+            <div>{this.props.video.video.title}</div>
+            <div>{this.props.video.video.channelTitle}</div>
+            <div>{this.props.video.video.publishedAt}</div>
+            <div>
+              {parser(
+                this.props.video.video.description.replaceAll('\n', '<br />')
+              )}
+            </div>
+          </Fragment>
+        )}
       </Fragment>
     );
   }
