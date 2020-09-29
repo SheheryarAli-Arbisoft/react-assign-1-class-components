@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './views/Home';
 import VideoPlayer from './views/VideoPlayer';
 
+import Container from './components/Container';
+
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -13,12 +15,14 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/:id' component={VideoPlayer} />
-          </Switch>
-        </Router>
+        <Container>
+          <Router>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/:id' component={VideoPlayer} />
+            </Switch>
+          </Router>
+        </Container>
       </Provider>
     );
   }

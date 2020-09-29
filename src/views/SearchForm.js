@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from 'react';
 
+import Form from '../components/Form';
+import Input from '../components/Input';
+import Button from '../components/Button';
+
 import { connect } from 'react-redux';
 import { getAllVideos } from '../actions/video';
 
@@ -31,21 +35,24 @@ class SearchForm extends Component {
     const { getAllVideos } = this.props;
 
     // Calling the action
-    getAllVideos(description);
+    if (description) {
+      getAllVideos(description);
+    }
   }
 
   render() {
     return (
       <Fragment>
-        <form onSubmit={this.onSubmit}>
-          <input
+        <Form onSubmit={this.onSubmit}>
+          <Input
             type='text'
+            placeholder='Search'
             name='description'
             value={this.state.description}
             onChange={this.onChange}
           />
-          <button type='submit'>Search</button>
-        </form>
+          <Button type='submit'>Search</Button>
+        </Form>
       </Fragment>
     );
   }
