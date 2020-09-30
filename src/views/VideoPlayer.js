@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import parser from 'html-react-parser';
 import SearchForm from './SearchForm';
 import VideosList from './VideosList';
@@ -87,11 +87,18 @@ const getFormattedTime = (dateString) => {
 };
 
 class VideoPlayer extends Component {
+  constructor() {
+    super();
+    this.windowRef = createRef();
+  }
+
   componentDidMount() {
     const { match, getVideo, getAllRelatedVideos } = this.props;
 
     getVideo(match.params.id);
     getAllRelatedVideos(match.params.id);
+
+    this.windowRef.current.scrollTop = 0;
   }
 
   componentDidUpdate(prevProps) {
@@ -106,39 +113,41 @@ class VideoPlayer extends Component {
   render() {
     return (
       <Fragment>
-        <Heading>
-          <i className='fab fa-youtube'></i> Youtube Video Player
-        </Heading>
-        <SearchForm />
+        <div ref={this.windowRef}>
+          <Heading>
+            <i className='fab fa-youtube'></i> Youtube Video Player
+          </Heading>
+          <SearchForm />
 
-        <VideoPlayerSection>
-          <VideoSection>
-            {!this.props.video.loading && this.props.video.video && (
-              <Fragment>
-                {getVideoIFrame(this.props.video.video.embedHtml)}
-                <Title>{this.props.video.video.title}</Title>
-                <div>
-                  <SubTitle>{this.props.video.video.channelTitle}</SubTitle>
-                  <SubTitle>
-                    {getFormattedTime(this.props.video.video.publishedAt)}
-                  </SubTitle>
-                </div>
-                <Description full>
-                  {parser(
-                    this.props.video.video.description.replaceAll(
-                      '\n',
-                      '<br />'
-                    )
-                  )}
-                </Description>
-              </Fragment>
-            )}
-          </VideoSection>
+          <VideoPlayerSection>
+            <VideoSection>
+              {!this.props.video.loading && this.props.video.video && (
+                <Fragment>
+                  {getVideoIFrame(this.props.video.video.embedHtml)}
+                  <Title>{this.props.video.video.title}</Title>
+                  <div>
+                    <SubTitle>{this.props.video.video.channelTitle}</SubTitle>
+                    <SubTitle>
+                      {getFormattedTime(this.props.video.video.publishedAt)}
+                    </SubTitle>
+                  </div>
+                  <Description full>
+                    {parser(
+                      this.props.video.video.description.replaceAll(
+                        '\n',
+                        '<br />'
+                      )
+                    )}
+                  </Description>
+                </Fragment>
+              )}
+            </VideoSection>
 
-          <RelatedVideosSection>
-            <VideosList small />
-          </RelatedVideosSection>
-        </VideoPlayerSection>
+            <RelatedVideosSection>
+              <VideosList small />
+            </RelatedVideosSection>
+          </VideoPlayerSection>
+        </div>
       </Fragment>
     );
   }
