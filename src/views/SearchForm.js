@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Form from '../components/Form';
 import Input from '../components/Input';
 import Button from '../components/Button';
-
-import { connect } from 'react-redux';
-import { getAllVideos } from '../actions/video';
 
 class SearchForm extends Component {
   constructor() {
@@ -31,12 +29,12 @@ class SearchForm extends Component {
     // Getting description from state
     const { description } = this.state;
 
-    // Getting the action from the props
-    const { getAllVideos } = this.props;
+    // Getting the history object from the props
+    const { history } = this.props;
 
-    // Calling the action
+    // Passing the description in the url
     if (description) {
-      getAllVideos(description);
+      history.push(`/?q=${description}`);
     }
   }
 
@@ -58,4 +56,4 @@ class SearchForm extends Component {
   }
 }
 
-export default connect(null, { getAllVideos })(SearchForm);
+export default withRouter(SearchForm);
