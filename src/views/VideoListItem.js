@@ -6,20 +6,81 @@ import Thumbnail from '../components/Thumbnail';
 import Title from '../components/Title';
 import SubTitle from '../components/SubTitle';
 import Description from '../components/Description';
+import { ListItem, ListItemContent } from '../components/List';
+
+// Get formatted video time
+const getFormattedTime = (dateString) => {
+  const time = new Date(dateString);
+  const currentTime = Date.now();
+
+  const duration = currentTime - time;
+
+  // Returning the duration in years
+  let result = Math.floor(duration / (1000 * 60 * 60 * 24 * 365));
+  if (result > 0) {
+    return (
+      <Fragment>
+        <i className='fas fa-clock'></i>{' '}
+        {`${result} year${result > 1 ? 's' : ''} ago`}
+      </Fragment>
+    );
+  }
+
+  // Returning the duration in months
+  result = Math.floor(duration / (1000 * 60 * 60 * 24 * 30));
+  if (result > 0) {
+    return (
+      <Fragment>
+        <i className='fas fa-clock'></i>{' '}
+        {`${result} month${result > 1 ? 's' : ''} ago`}
+      </Fragment>
+    );
+  }
+
+  // Returning the duration in days
+  result = Math.floor(duration / (1000 * 60 * 60 * 24));
+  if (result > 0) {
+    return (
+      <Fragment>
+        <i className='fas fa-clock'></i>{' '}
+        {`${result} day${result > 1 ? 's' : ''} ago`}
+      </Fragment>
+    );
+  }
+
+  // Returning the duration in minutes
+  result = Math.floor(duration / (1000 * 60 * 60));
+  if (result > 0) {
+    return (
+      <Fragment>
+        <i className='fas fa-clock'></i>{' '}
+        {`${result} minute${result > 1 ? 's' : ''} ago`}
+      </Fragment>
+    );
+  }
+};
 
 class VideoListItem extends Component {
   render() {
     return (
       <Fragment>
-        <Link to={`/${this.props.video.id}`}>
+        {/* <Link to={`/${this.props.video.id}`}> */}
+        <ListItem>
           <Thumbnail alt='' src={this.props.video.thumbnails.high.url} />
-          <Title>{this.props.video.title}</Title>
-          <SubTitle>{this.props.video.channelTitle}</SubTitle>
-          <SubTitle>{this.props.video.publishedAt}</SubTitle>
-          <Description>
-            {parser(this.props.video.description.replaceAll('\n', '<br />'))}
-          </Description>
-        </Link>
+          <ListItemContent>
+            <Title>{this.props.video.title}</Title>
+            <div>
+              <SubTitle>{this.props.video.channelTitle}</SubTitle>
+              <SubTitle>
+                {getFormattedTime(this.props.video.publishedAt)}
+              </SubTitle>
+            </div>
+            <Description>
+              {parser(this.props.video.description.replaceAll('\n', '<br />'))}
+            </Description>
+          </ListItemContent>
+        </ListItem>
+        {/* </Link> */}
       </Fragment>
     );
   }

@@ -9,7 +9,7 @@ class Home extends Component {
     return (
       <Fragment>
         <Heading>
-          <i class='fab fa-youtube'></i> Youtube Video Player
+          <i className='fab fa-youtube'></i> Youtube Video Player
         </Heading>
         <SearchForm />
         <VideosList />
