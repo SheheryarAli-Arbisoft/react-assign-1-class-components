@@ -24,6 +24,6 @@ export const ListItemContent = styled.div`
   }
 
   & > div:nth-child(2) > div {
-    margin-right: 2rem;
+    margin-right: ${(props) => (props.small ? '5px' : '2rem')};
   }
 `;

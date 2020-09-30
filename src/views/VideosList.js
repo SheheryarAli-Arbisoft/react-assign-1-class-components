@@ -10,7 +10,11 @@ class VideosList extends Component {
         {!this.props.video.loading &&
           this.props.video.videos.length > 0 &&
           this.props.video.videos.map((video) => (
-            <VideosListItem key={video.id} video={video} />
+            <VideosListItem
+              key={video.id}
+              video={video}
+              small={this.props.small}
+            />
           ))}
       </Fragment>
     );

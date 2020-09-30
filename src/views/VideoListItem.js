@@ -66,16 +66,22 @@ class VideoListItem extends Component {
       <Fragment>
         <Link to={`/${this.props.video.id}`}>
           <ListItem>
-            <Thumbnail alt='' src={this.props.video.thumbnails.high.url} />
-            <ListItemContent>
-              <Title>{this.props.video.title}</Title>
+            <Thumbnail
+              alt=''
+              src={this.props.video.thumbnails.high.url}
+              small={this.props.small}
+            />
+            <ListItemContent small={this.props.small}>
+              <Title small={this.props.small}>{this.props.video.title}</Title>
               <div>
-                <SubTitle>{this.props.video.channelTitle}</SubTitle>
-                <SubTitle>
+                <SubTitle small={this.props.small}>
+                  {this.props.video.channelTitle}
+                </SubTitle>
+                <SubTitle small={this.props.small}>
                   {getFormattedTime(this.props.video.publishedAt)}
                 </SubTitle>
               </div>
-              <Description>
+              <Description small={this.props.small}>
                 {parser(
                   this.props.video.description.replaceAll('\n', '<br />')
                 )}
