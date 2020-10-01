@@ -106,7 +106,7 @@ class VideoPlayer extends Component {
 
     if (match.params.id !== prevProps.match.params.id) {
       getVideo(match.params.id);
-      getAllRelatedVideos(match.params.id);
+      // getAllRelatedVideos(match.params.id);
     }
   }
 

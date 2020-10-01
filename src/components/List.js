@@ -4,7 +4,7 @@ export const List = styled.div`
   box-sizing: border-box;
   width: 100%;
   min-height: 100px;
-  margin-top: 40px;
+  margin-top: ${(props) => (props.small ? '0' : '40px')};
   padding: 0 20px;
   padding-top: 30px;
   border-style: solid;
@@ -33,6 +33,7 @@ export const ListItemContent = styled.div`
   flex-direction: column;
   padding: 0 15px;
   width: 100%;
+  width: calc(100% - ${(props) => (props.small ? '120' : '256')}px);
 
   & > div:nth-child(2) {
     display: flex;
@@ -40,6 +41,6 @@ export const ListItemContent = styled.div`
   }
 
   & > div:nth-child(2) > div {
-    margin-right: ${(props) => (props.small ? '5px' : '2rem')};
+    margin-right: ${(props) => (props.small ? '10px' : '30px')};
   }
 `;

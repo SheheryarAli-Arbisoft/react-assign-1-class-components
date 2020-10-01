@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import parser from 'html-react-parser';
 
 import Thumbnail from '../components/Thumbnail';
 import Title from '../components/Title';
@@ -82,9 +81,7 @@ class VideoListItem extends Component {
                 </SubTitle>
               </div>
               <Description small={this.props.small}>
-                {parser(
-                  this.props.video.description.replaceAll('\n', '<br />')
-                )}
+                {this.props.video.description}
               </Description>
             </ListItemContent>
           </ListItem>

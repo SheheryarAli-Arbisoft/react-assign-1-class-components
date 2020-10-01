@@ -9,7 +9,7 @@ class VideosList extends Component {
   render() {
     return (
       <Fragment>
-        <List>
+        <List small={this.props.small}>
           {!this.props.video.loading &&
             this.props.video.videos.length > 0 &&
             this.props.video.videos.map((video) => (

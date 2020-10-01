@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 const Description = styled.div`
-  font-size: 18px;
+  font-size: ${(props) => (props.small ? '14' : '18')}px;
   color: #000000;
-  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default Description;
