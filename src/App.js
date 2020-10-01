@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Navbar from './views/Navbar';
 import Home from './views/Home';
 import VideoPlayer from './views/VideoPlayer';
 
@@ -15,14 +16,15 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Container>
-          <Router>
+        <Router>
+          <Navbar />
+          <Container>
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/:id' component={VideoPlayer} />
             </Switch>
-          </Router>
-        </Container>
+          </Container>
+        </Router>
       </Provider>
     );
   }
