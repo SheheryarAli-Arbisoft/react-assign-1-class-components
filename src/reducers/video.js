@@ -8,7 +8,7 @@ import {
 const initialState = {
   video: null,
   videos: [],
-  loading: false,
+  loading: true,
   errors: null,
 };
 

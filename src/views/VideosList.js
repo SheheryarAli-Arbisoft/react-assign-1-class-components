@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
 import VideosListItem from './VideoListItem';
@@ -10,32 +11,11 @@ import { getAllVideos } from '../actions/video';
 
 class VideosList extends Component {
   componentDidMount() {
-    const {
-      location: { search },
-      getAllVideos,
-    } = this.props;
+    const { location, getAllVideos } = this.props;
 
-    // Getting the search paramters from the url
-    const parsed = queryString.parse(search);
-    const description = parsed.q;
-
-    if (description) {
-      getAllVideos(description);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      location: { search },
-      getAllVideos,
-    } = this.props;
-
-    // Getting the description from the url parameters
-    const parsed = queryString.parse(search);
-    const prevParsed = queryString.parse(prevProps.location.search);
-
-    if (parsed.q !== prevParsed.q) {
-      const description = parsed.q;
+    if (location) {
+      // Getting the search paramters from the url
+      const description = queryString.parse(location.search).q;
 
       if (description) {
         getAllVideos(description);
@@ -43,24 +23,46 @@ class VideosList extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { location, getAllVideos } = this.props;
+
+    if (location) {
+      // Getting the description from the url parameters
+      const description = queryString.parse(location.search).q;
+      const prevDescription = queryString.parse(prevProps.location.search).q;
+
+      if (description !== prevDescription) {
+        if (description) {
+          getAllVideos(description);
+        }
+      }
+    }
+  }
+
   render() {
+    const {
+      video: { loading, videos },
+      small,
+    } = this.props;
+
     return (
       <Fragment>
-        <List small={this.props.small}>
-          {!this.props.video.loading &&
-            this.props.video.videos.length > 0 &&
-            this.props.video.videos.map((video) => (
-              <VideosListItem
-                key={video.id}
-                video={video}
-                small={this.props.small}
-              />
+        <List small={small}>
+          {!loading &&
+            videos.length > 0 &&
+            videos.map((video) => (
+              <VideosListItem key={video.id} video={video} small={small} />
             ))}
         </List>
       </Fragment>
     );
   }
 }
+
+VideosList.propTypes = {
+  video: PropTypes.object.isRequired,
+  getAllVideos: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   video: state.video,
