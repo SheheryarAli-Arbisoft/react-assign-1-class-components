@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
 
 import VideosListItem from './VideoListItem';
 
 import { List } from '../components/List';
 
-import { connect } from 'react-redux';
 import { getAllVideos } from '../actions/video';
 
 class VideosList extends Component {
+  /* eslint-disable no-shadow */
   componentDidMount() {
     const { location, getAllVideos } = this.props;
 
@@ -46,6 +47,7 @@ class VideosList extends Component {
     } = this.props;
 
     return (
+      /* eslint-disable react/jsx-filename-extension, react/jsx-fragments */
       <Fragment>
         <List small={small}>
           {!loading &&
@@ -60,7 +62,9 @@ class VideosList extends Component {
 }
 
 VideosList.propTypes = {
+  /* eslint-disable react/forbid-prop-types, react/require-default-props */
   video: PropTypes.object.isRequired,
+  location: PropTypes.object,
   small: PropTypes.bool,
   getAllVideos: PropTypes.func.isRequired,
 };

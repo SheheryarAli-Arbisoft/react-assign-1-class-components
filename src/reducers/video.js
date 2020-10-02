@@ -12,6 +12,7 @@ const initialState = {
   errors: null,
 };
 
+// eslint-disable-next-line func-names
 export default function (state = initialState, action) {
   const { type, payload } = action;
 

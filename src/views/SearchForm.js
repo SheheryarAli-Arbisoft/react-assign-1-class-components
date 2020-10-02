@@ -40,14 +40,17 @@ class SearchForm extends Component {
   }
 
   render() {
+    const { description } = this.state;
+
     return (
+      /* eslint-disable react/jsx-filename-extension, react/jsx-fragments */
       <Fragment>
         <Form onSubmit={this.onSubmit}>
           <Input
             type='text'
             placeholder='Search'
             name='description'
-            value={this.state.description}
+            value={description}
             onChange={this.onChange}
           />
           <Button type='submit'>Search</Button>
@@ -58,6 +61,7 @@ class SearchForm extends Component {
 }
 
 SearchForm.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
 };
 

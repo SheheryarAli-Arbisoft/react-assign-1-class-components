@@ -8,16 +8,17 @@ import {
 
 const API_KEY = 'AIzaSyA6vjCwXxs-wFd7_Hr0eFA6YuHYX7INahM';
 
+/* eslint-disable no-console */
+
 // Generate the search url
-const generateSearchUrl = (description) => {
-  return `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${description}&type=video&key=${API_KEY}`;
-};
+const generateSearchUrl = description =>
+  `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${description}&type=video&key=${API_KEY}`;
 
 // Get required data from response
-const getRequiredVideosData = (response) => {
+const getRequiredVideosData = response => {
   let result = [];
 
-  response.items.forEach((item) => {
+  response.items.forEach(item => {
     // Destructuring the required fields
     const { videoId: id } = item.id;
 
@@ -47,7 +48,7 @@ const getRequiredVideosData = (response) => {
 };
 
 // Get all videos related to description
-export const getAllVideos = (description) => async (dispatch) => {
+export const getAllVideos = description => async dispatch => {
   try {
     // Getting all the video results related to the description
     let result = await axios.get(generateSearchUrl(description));
@@ -70,12 +71,11 @@ export const getAllVideos = (description) => async (dispatch) => {
 };
 
 // Generate realted videos url
-const generateRelatedVideosUrl = (id) => {
-  return `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=26&relatedToVideoId=${id}&type=video&key=${API_KEY}`;
-};
+const generateRelatedVideosUrl = id =>
+  `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=26&relatedToVideoId=${id}&type=video&key=${API_KEY}`;
 
 // Get all videos related to a video
-export const getAllRelatedVideos = (id) => async (dispatch) => {
+export const getAllRelatedVideos = id => async dispatch => {
   try {
     // Getting all the videos related to the current video
     let result = await axios.get(generateRelatedVideosUrl(id));
@@ -98,12 +98,11 @@ export const getAllRelatedVideos = (id) => async (dispatch) => {
 };
 
 // Generate single video url
-const generateSingleVideoUrl = (id) => {
-  return `https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cplayer&id=${id}&key=${API_KEY}`;
-};
+const generateSingleVideoUrl = id =>
+  `https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cplayer&id=${id}&key=${API_KEY}`;
 
 // Get required single video data from response
-const getRequiredSingleVideoData = (response) => {
+const getRequiredSingleVideoData = response => {
   // Destructuring the required fields
   const { title, channelTitle, publishedAt, description } = response.snippet;
 
@@ -119,7 +118,7 @@ const getRequiredSingleVideoData = (response) => {
 };
 
 // Get a single video
-export const getVideo = (id) => async (dispatch) => {
+export const getVideo = id => async dispatch => {
   try {
     // Getting the video related to the id
     let result = await axios.get(generateSingleVideoUrl(id));
