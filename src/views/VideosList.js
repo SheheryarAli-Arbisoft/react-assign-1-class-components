@@ -50,7 +50,7 @@ class VideosList extends Component {
         <List small={small}>
           {!loading &&
             videos.length > 0 &&
-            videos.map((video) => (
+            videos.map(video => (
               <VideosListItem key={video.id} video={video} small={small} />
             ))}
         </List>
@@ -61,10 +61,11 @@ class VideosList extends Component {
 
 VideosList.propTypes = {
   video: PropTypes.object.isRequired,
+  small: PropTypes.bool,
   getAllVideos: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   video: state.video,
 });
 
